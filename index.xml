@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ChrisDewa&#39;s blog</title>
+    <link>http://example.org/</link>
+    <description>Recent content on ChrisDewa&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 03 May 2023 22:19:47 -0600</lastBuildDate><atom:link href="http://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Fun with metaclasses</title>
+      <link>http://example.org/posts/python/fun_with_metaclasses/</link>
+      <pubDate>Wed, 03 May 2023 22:19:47 -0600</pubDate>
+      
+      <guid>http://example.org/posts/python/fun_with_metaclasses/</guid>
+      <description>Everything in Python is an object. An object is an instance of a class, but even classes are objects themselves. It can be a bit confusing when trying to learn Object Oriented Programing (OOP) with python and one of the trickiest of subjects are metaclasses, let&amp;rsquo;s talk about them!
+To define a class in Python, the idiomatic way to do it is simple and I&amp;rsquo;m sure you&amp;rsquo;ve seen it before:</description>
+      <content>&lt;p&gt;Everything in Python is an object. An object is an instance of a class, but even classes are objects themselves. It can be a bit confusing when trying to learn Object Oriented Programing (OOP) with python and one of the trickiest of subjects are metaclasses, let&amp;rsquo;s talk about them!&lt;/p&gt;
+&lt;p&gt;To define a class in Python, the idiomatic way to do it is simple and I&amp;rsquo;m sure you&amp;rsquo;ve seen it before:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, name, age):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;age &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; age
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;But do you know that this is actually syntactic sugar? yeah, let me show you what&amp;rsquo;s going on behind the curtains.&lt;/p&gt;
+&lt;p&gt;Do you remember &lt;code&gt;type&lt;/code&gt;, that &amp;ldquo;function&amp;rdquo; thing you use to check the &amp;ldquo;type&amp;rdquo; of an object?
+You might have used it like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;number &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;42&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(type(number))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# &amp;lt;class &amp;#39;int&amp;#39;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Well type is not a function at all!! It&amp;rsquo;s real job is creating all the objects and classes you use in python.
+And you can actually use it for this as well. This example will be equivalent to the one above.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, name, age):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;age &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; age
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Person &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; type(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Person&amp;#39;&lt;/span&gt;, (), {&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;__init__&amp;#39;&lt;/span&gt;: __init__})
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The first argument of type used in this way (to create a class) is the name, the second is &amp;ldquo;bases&amp;rdquo;, meaning the classes it inherits from and finally the &amp;ldquo;attributes&amp;rdquo;, a dictionary with all the methods and attributes of the class instances.&lt;/p&gt;
+&lt;p&gt;What I&amp;rsquo;m trying to show here is that &lt;code&gt;type&lt;/code&gt; (a class itself) is the maker of any other classes you might use. But&amp;hellip; you can make class makers of your own. When you define classes, they usually inherit from &lt;code&gt;object&lt;/code&gt;, but to make a class maker, you inherit directly from &lt;code&gt;type&lt;/code&gt;. These &amp;ldquo;class makers&amp;rdquo; as I&amp;rsquo;ve been calling them are actually called &amp;ldquo;metaclasses&amp;rdquo;.&lt;/p&gt;
+&lt;p&gt;If a class is the blueprint of an object, a metaclass is the blueprint of classes. Metaclasses, then, control how a class is created.
+This is a simple example of a metaclass:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;MyMeta&lt;/span&gt;(type): &lt;span style=&#34;color:#75715e&#34;&gt;# inherit from type&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# call method is used when calling() a class to make an object&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;# here it&amp;#39;d be Person()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __call__(cls, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kws): 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        print(args, kws)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__call__(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kws)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;(metaclass&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;MyMeta):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, name, age): 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;age &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; age
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chris &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Person(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;chris&amp;#39;&lt;/span&gt;, age&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;35&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# (&amp;#39;chris&amp;#39;,) {&amp;#39;age&amp;#39;: 35}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;As you see inheriting from MyMeta with the keyword &amp;ldquo;metaclass&amp;rdquo; adds functionality to our base class, here it&amp;rsquo;s just some bad loggin. But the main thing is the metaclass is not altering the &lt;code&gt;__call__&lt;/code&gt; method of the class, it&amp;rsquo;s actually altering what happens when you use the class to create an object.&lt;/p&gt;
+&lt;p&gt;Metaclasses are rarely ever needed, but are really fun to use. One of the most asked patterns regarding metaclasses is the &amp;ldquo;singleton&amp;rdquo;. A singleton is a class that can only have one, and only one, object. The actual use is very controversial as you can read in &lt;a href=&#34;https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python&#34;&gt;this&lt;/a&gt; question in StackOverflow.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s see how you&amp;rsquo;d use the pattern above to create a singleton:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;SingletonMeta&lt;/span&gt;(type):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    __instances &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __call__(cls, &lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kws):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; cls&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__instances&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;setdefault(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            cls, super()&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;__call__(&lt;span style=&#34;color:#f92672&#34;&gt;*&lt;/span&gt;args, &lt;span style=&#34;color:#f92672&#34;&gt;**&lt;/span&gt;kws)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Person&lt;/span&gt;(metaclass&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;SingletonMeta):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; __init__(self, name, age):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; name
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;age &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; age
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;chris &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Person(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;chris&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;35&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;moni &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; Person(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;moni&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;36&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(chris&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name, moni&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;name)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;chris &lt;span style=&#34;color:#f92672&#34;&gt;is&lt;/span&gt; moni &lt;span style=&#34;color:#e6db74&#34;&gt;=}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# chris chris&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# chris is moni = True&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;What&amp;rsquo;s happening here is that classes are hashable, they return their ID, even if their objects aren&amp;rsquo;t hashable.
+This lets us use the class as a key in an instances dictionary, and setdefault the first instances it creates.
+Any other instances of that class will actually be the same object. This class can no longer create other objects, all thanks to the metaclass.&lt;/p&gt;
+&lt;p&gt;So that&amp;rsquo;s it for this post. Metaclasses then are the blueprints of classes and they&amp;rsquo;re creating by inheriting from &lt;code&gt;type&lt;/code&gt; instead of &lt;code&gt;object&lt;/code&gt;. They can add some amazing functionality but for a regular use case, they&amp;rsquo;re almost never needed as there is almost always a simpler way and often times using them only adds complexity to the code, making it harder to understand and maintain. They, however, remain a very powerful tool you should master in your way to be a python master.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>The zen of python</title>
+      <link>http://example.org/posts/python/python_zen/</link>
+      <pubDate>Wed, 03 May 2023 16:51:18 -0600</pubDate>
+      
+      <guid>http://example.org/posts/python/python_zen/</guid>
+      <description>If you want to entune yourself to python&amp;rsquo;s zen open up an interactive session and enter:
+import this This text will appear:
+The Zen of Python, by Tim Peters Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex. Complex is better than complicated. Flat is better than nested. Sparse is better than dense. Readability counts. Special cases aren&amp;#39;t special enough to break the rules. Although practicality beats purity.</description>
+      <content>&lt;p&gt;If you want to entune yourself to python&amp;rsquo;s zen open up an interactive session and enter:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; this
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;This text will appear:&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren&amp;#39;t special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you&amp;#39;re Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it&amp;#39;s a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let&amp;#39;s do more of those!
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Read it. Learn it. Apply it!&lt;/p&gt;
+&lt;p&gt;And that&amp;rsquo;s it!&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>http://example.org/about/</link>
+      <pubDate>Wed, 03 May 2023 15:27:31 -0600</pubDate>
+      
+      <guid>http://example.org/about/</guid>
+      <description>Hello I&amp;rsquo;m Chris I&amp;rsquo;m a developmental pediatrician from Mexico City. I love to code in python and I&amp;rsquo;m always looking for the next thing to learn.
+I&amp;rsquo;m interested in child development, ADHD, ASD, speech and language disorders, computer sciences, networking, human evolution, natural history and a tiny little bit about penetration testing.
+I often develop discord bots and APIs for my friends and communities I&amp;rsquo;m engaged with and I use python and Jupiter lab in my research projects and my students&#39;.</description>
+      <content>&lt;h2 id=&#34;hello-im-chris&#34;&gt;Hello I&amp;rsquo;m Chris&lt;/h2&gt;
+&lt;p&gt;I&amp;rsquo;m a developmental pediatrician from Mexico City. I love to code in python and I&amp;rsquo;m always looking for the next thing to learn.&lt;/p&gt;
+&lt;p&gt;I&amp;rsquo;m interested in child development, ADHD, ASD, speech and language disorders, computer sciences, networking, human evolution, natural history and a tiny little bit about penetration testing.&lt;/p&gt;
+&lt;p&gt;I often develop discord bots and APIs for my friends and communities I&amp;rsquo;m engaged with and I use python and Jupiter lab in my research projects and my students&#39;.&lt;/p&gt;
+&lt;p&gt;You can buy me a coffee &lt;a href=&#34;https://ko-fi.com/chrisdewa&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
