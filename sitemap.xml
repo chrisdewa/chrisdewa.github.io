@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://example.org/</loc>
+    <loc>https://chrisdewa.github.io/</loc>
     <lastmod>2023-05-03T22:19:47-06:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/python/fun_with_metaclasses/</loc>
+    <loc>https://chrisdewa.github.io/posts/python/fun_with_metaclasses/</loc>
     <lastmod>2023-05-03T22:19:47-06:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/</loc>
+    <loc>https://chrisdewa.github.io/posts/</loc>
     <lastmod>2023-05-03T22:19:47-06:00</lastmod>
   </url><url>
-    <loc>http://example.org/posts/python/python_zen/</loc>
+    <loc>https://chrisdewa.github.io/posts/python/python_zen/</loc>
     <lastmod>2023-05-03T16:51:18-06:00</lastmod>
   </url><url>
-    <loc>http://example.org/about/</loc>
+    <loc>https://chrisdewa.github.io/about/</loc>
     <lastmod>2023-05-03T15:27:31-06:00</lastmod>
   </url><url>
-    <loc>http://example.org/categories/</loc>
+    <loc>https://chrisdewa.github.io/categories/</loc>
   </url><url>
-    <loc>http://example.org/tags/</loc>
+    <loc>https://chrisdewa.github.io/tags/</loc>
   </url>
 </urlset>
