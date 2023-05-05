@@ -144,7 +144,7 @@ The &lt;code&gt;functools.wraps&lt;/code&gt; decorator will fix our wrapper so t
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;What we&amp;rsquo;re doing here is implementing a memoizing algorithm that will do a double decoration.
 The inner decorator will change the methods of the class from their regular version to the memoized one,
 using the regular syntax &lt;code&gt;fun = deco(fun)&lt;/code&gt;&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;setattr(cls, name, wrapper(attr))
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-py&#34; data-lang=&#34;py&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;setattr(cls, name, memoize(attr))
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The outer decorator simply loops over the class&amp;rsquo; dict altering the attributes that are callable.&lt;/p&gt;
 </content>
     </item>

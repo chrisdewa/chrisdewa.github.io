@@ -284,7 +284,7 @@ The <code>functools.wraps</code> decorator will fix our wrapper so that the retu
 </span></span></code></pre></div><p>What we&rsquo;re doing here is implementing a memoizing algorithm that will do a double decoration.
 The inner decorator will change the methods of the class from their regular version to the memoized one,
 using the regular syntax <code>fun = deco(fun)</code></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>setattr(cls, name, wrapper(attr))
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>setattr(cls, name, memoize(attr))
 </span></span></code></pre></div><p>The outer decorator simply loops over the class&rsquo; dict altering the attributes that are callable.</p>
 
       </div></div>
