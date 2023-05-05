@@ -8,11 +8,11 @@
     <language>en-us</language>
     <lastBuildDate>Thu, 04 May 2023 18:15:58 -0600</lastBuildDate><atom:link href="https://chrisdewa.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>general</title>
-      <link>https://chrisdewa.github.io/tags/general/</link>
+      <title>decorators</title>
+      <link>https://chrisdewa.github.io/tags/decorators/</link>
       <pubDate>Thu, 04 May 2023 18:15:58 -0600</pubDate>
       
-      <guid>https://chrisdewa.github.io/tags/general/</guid>
+      <guid>https://chrisdewa.github.io/tags/decorators/</guid>
       <description></description>
       <content></content>
     </item>
@@ -33,6 +33,16 @@
       <pubDate>Thu, 04 May 2023 10:36:27 -0600</pubDate>
       
       <guid>https://chrisdewa.github.io/tags/oop/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>general</title>
+      <link>https://chrisdewa.github.io/tags/general/</link>
+      <pubDate>Wed, 03 May 2023 16:51:18 -0600</pubDate>
+      
+      <guid>https://chrisdewa.github.io/tags/general/</guid>
       <description></description>
       <content></content>
     </item>

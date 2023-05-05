@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://chrisdewa.github.io/tags/general/</loc>
+    <loc>https://chrisdewa.github.io/tags/decorators/</loc>
     <lastmod>2023-05-04T18:15:58-06:00</lastmod>
   </url><url>
     <loc>https://chrisdewa.github.io/posts/python/intro_to_decorators/</loc>
@@ -28,6 +28,9 @@
   </url><url>
     <loc>https://chrisdewa.github.io/posts/python/fun_with_metaclasses/</loc>
     <lastmod>2023-05-03T22:19:47-06:00</lastmod>
+  </url><url>
+    <loc>https://chrisdewa.github.io/tags/general/</loc>
+    <lastmod>2023-05-03T16:51:18-06:00</lastmod>
   </url><url>
     <loc>https://chrisdewa.github.io/posts/python/python_zen/</loc>
     <lastmod>2023-05-03T16:51:18-06:00</lastmod>
