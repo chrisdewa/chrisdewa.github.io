@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Intro to decorators :: ChrisDewa&#39;s blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A decorator is a special pattern where a callable takes a single parameter which is another callable, mainly classes and functions and return something, usually another callable. This can happen either on the decorated definition or later on.
+In python the at (@) operator is used as syntactic sugar. What a decorator actually does is this:
+foo = decorator(foo) # foo is a functionFoo = decorator(Foo) # Foo is a class But we can use the @ decorator like this too, which is equivalent to the above:" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://chrisdewa.github.io/posts/python/intro_to_decorators/" />
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="https://chrisdewa.github.io/styles.css">
+
+
+
+
+
+
+
+  <link rel="shortcut icon" href="https://chrisdewa.github.io/img/theme-colors/blue.png">
+  <link rel="apple-touch-icon" href="https://chrisdewa.github.io/img/theme-colors/blue.png">
+
+
+
+<meta name="twitter:card" content="summary" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Intro to decorators">
+<meta property="og:description" content="A decorator is a special pattern where a callable takes a single parameter which is another callable, mainly classes and functions and return something, usually another callable. This can happen either on the decorated definition or later on.
+In python the at (@) operator is used as syntactic sugar. What a decorator actually does is this:
+foo = decorator(foo) # foo is a functionFoo = decorator(Foo) # Foo is a class But we can use the @ decorator like this too, which is equivalent to the above:" />
+<meta property="og:url" content="https://chrisdewa.github.io/posts/python/intro_to_decorators/" />
+<meta property="og:site_name" content="ChrisDewa&#39;s blog" />
+
+  
+    <meta property="og:image" content="https://chrisdewa.github.io/img/favicon/blue.png">
+  
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2023-05-04 18:15:58 -0600 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body class="blue">
+
+
+<div class="container headings--one-size">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="/">
+  <div class="logo">
+    ChrisDewa&#39;s blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="/about">About</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="/about" >About</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://chrisdewa.github.io/posts/python/intro_to_decorators/">Intro to decorators</a>
+  </h1>
+  <div class="post-meta">
+    
+      <time class="post-date">
+        2023-05-04 ::
+        
+      </time>
+    
+    
+    
+  </div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://chrisdewa.github.io/tags/python/">python</a>&nbsp;
+      
+      #<a href="https://chrisdewa.github.io/tags/general/">general</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <p>A decorator is a special pattern where a <code>callable</code> takes a single parameter which is another <code>callable</code>, mainly classes and functions and return something, usually another <code>callable</code>. This can happen either on the decorated definition or later on.</p>
+<p>In python the at (@) operator is used as syntactic sugar. What a decorator actually does is this:</p>
+<pre tabindex="0"><code>foo = decorator(foo) # foo is a function
+Foo = decorator(Foo) # Foo is a class
+</code></pre><p>But we can use the @ decorator like this too, which is equivalent to the above:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#a6e22e">@decorator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@decorator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">pass</span>
+</span></span></code></pre></div><p>How is a decorator defined?
+Remember that a decorator is a callable that will take a single parameter, which is the decorated class or function. So you can define decorators in multiple ways. Let&rsquo;s test three ways to make a decorator that will simply print the name of the decorated without changing anything.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#75715e"># the usual way</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(decorated):
+</span></span><span style="display:flex;"><span>    print(decorated<span style="color:#f92672">.</span>__name__)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> decorated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># a class that grabs the decorated and puts in in an attribute of itself</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># in this case the decorated isn&#39;t returned,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># insted it will be now an instance of the class</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Decorator</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __init__(self, decorated):
+</span></span><span style="display:flex;"><span>        self<span style="color:#f92672">.</span>decorated <span style="color:#f92672">=</span> decorated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># a class with a __call__ method that will work exactly like the first example</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Decorator</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> __call__(self, decorated):
+</span></span><span style="display:flex;"><span>        print(decorated<span style="color:#f92672">.</span>__name__)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> decorated
+</span></span></code></pre></div><p>Around this simple logic, you can work with three basic decorating patters. Ways to write a decorator to add functionality to your decorated.
+Let&rsquo;s work with our same logging feature.</p>
+<p>The first have already seen, simply do something when decorating.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(decorated):
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;decorating: &#39;</span>, decorated<span style="color:#f92672">.</span>__name__)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> decorated
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># use:</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@decorator</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;hello world&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># the code will print &#34;decorating: foo&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># then foo will work as you&#39;d expect everywhere else</span>
+</span></span></code></pre></div><p>The second is a bit more complex, we will add a prefix for our logging decorator.
+This requires us to pass arguments to the decorator, but since the <em>actual decorator</em> can only take one argument,
+we need to wrap (or nest) our decorator inside another function.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(prefix):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">actual_decorator</span>(decorated):
+</span></span><span style="display:flex;"><span>        print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prefix<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>decorated<span style="color:#f92672">.</span>__name__<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> decorated
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> actual_decorator
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># use</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@decorator</span>(<span style="color:#e6db74">&#39;Brand new decorator decorating:&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;hello world&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># this will print &#39;Brand new decorator decorating: foo&#39; </span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># once right here, and then foo will work as you&#39;d expect.</span>
+</span></span></code></pre></div><p>Finally a more complex decorator. Will take the prefix but this time
+We want the logging to happen every time the function is called.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(prefix):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">actual_decorator</span>(decorated):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws):
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prefix<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>decorated<span style="color:#f92672">.</span>__name__<span style="color:#e6db74">}</span><span style="color:#e6db74"> called&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> decorated(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> wrapper
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> actual_decorator
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># use</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@decorator</span>(<span style="color:#e6db74">&#39;special log |&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+</span></span><span style="display:flex;"><span>    print(<span style="color:#e6db74">&#39;hello world&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># nothing happens here</span>
+</span></span><span style="display:flex;"><span>foo()
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &gt;&gt; special log | foo called</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># &gt;&gt; hello world</span>
+</span></span></code></pre></div><p>Nesting functions might look complicated at first, but it&rsquo;s a pattern that you&rsquo;ll see used everywhere.
+There&rsquo;s an issue though. If you examine the code, you&rsquo;ll see that we&rsquo;re not returning the original function.
+Insted we&rsquo;re returning that wrapper, and that means, that all the function metadata will be lost,
+docstrings, annotations, etc. To fix this, there&rsquo;s yet another decorator built in python&rsquo;s functools module.
+The <code>functools.wraps</code> decorator will fix our wrapper so that the returned wrapper has all the metadata that our function will be preserved.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span><span style="color:#f92672">import</span> functools
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(prefix):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">actual_decorator</span>(decorated):
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@wraps</span>(decorated) <span style="color:#75715e"># we use it to decorate the wrapper and it takes our original function as argument</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws):
+</span></span><span style="display:flex;"><span>            print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{</span>prefix<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>decorated<span style="color:#f92672">.</span>__name__<span style="color:#e6db74">}</span><span style="color:#e6db74"> called&#39;</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> decorated(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> wrapper
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> actual_decorator
+</span></span></code></pre></div><p>Now I said at the begining that decorators can be used on classes as well, let&rsquo;s make a decorator for a class.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">memomethods</span>(cls):
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">memoize</span>(method):
+</span></span><span style="display:flex;"><span>        cache <span style="color:#f92672">=</span> {}
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">@wraps</span>(method)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws):
+</span></span><span style="display:flex;"><span>            sig <span style="color:#f92672">=</span> (method, args <span style="color:#f92672">+</span> tuple(kws<span style="color:#f92672">.</span>items()))
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> sig <span style="color:#f92672">in</span> cache:
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> cache[sig]
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>                result <span style="color:#f92672">=</span> cache[sig] <span style="color:#f92672">=</span> method(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kws)
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> wrapper
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> name, attr <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>__dict__<span style="color:#f92672">.</span>items():
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> callable(attr):
+</span></span><span style="display:flex;"><span>            setattr(cls, name, memoize(attr))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cls
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">@memomethods</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fib</span>(self, n):
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> isinstance(n, int) <span style="color:#f92672">or</span> n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;n must be a positive integer&#39;</span>)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> n <span style="color:#f92672">in</span> {<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>}:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> n
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>fib(n<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>fib(n<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>)
+</span></span></code></pre></div><p>What we&rsquo;re doing here is implementing a memoizing algorithm that will do a double decoration.
+The inner decorator will change the methods of the class from their regular version to the memoized one,
+using the regular syntax <code>fun = deco(fun)</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-py" data-lang="py"><span style="display:flex;"><span>setattr(cls, name, wrapper(attr))
+</span></span></code></pre></div><p>The outer decorator simply loops over the class&rsquo; dict altering the attributes that are callable.</p>
+
+      </div></div>
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2023 Powered by <a href="http://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

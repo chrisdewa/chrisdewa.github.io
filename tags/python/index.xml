@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ChrisDewa&#39;s Awesome blog! on ChrisDewa&#39;s blog</title>
-    <link>https://chrisdewa.github.io/</link>
-    <description>Recent content in ChrisDewa&#39;s Awesome blog! on ChrisDewa&#39;s blog</description>
+    <title>python on ChrisDewa&#39;s blog</title>
+    <link>https://chrisdewa.github.io/tags/python/</link>
+    <description>Recent content in python on ChrisDewa&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 May 2023 14:24:57 -0600</lastBuildDate><atom:link href="https://chrisdewa.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 May 2023 18:15:58 -0600</lastBuildDate><atom:link href="https://chrisdewa.github.io/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Intro to decorators</title>
       <link>https://chrisdewa.github.io/posts/python/intro_to_decorators/</link>
@@ -347,23 +347,6 @@ If the implementation is easy to explain, it may be a good idea.
 Namespaces are one honking great idea -- let&amp;#39;s do more of those!
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;Read it. Learn it. Apply it!&lt;/p&gt;
 &lt;p&gt;And that&amp;rsquo;s it!&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>About</title>
-      <link>https://chrisdewa.github.io/about/</link>
-      <pubDate>Wed, 03 May 2023 15:27:31 -0600</pubDate>
-      
-      <guid>https://chrisdewa.github.io/about/</guid>
-      <description>Hello I&amp;rsquo;m Chris I&amp;rsquo;m a developmental pediatrician from Mexico City. I love to code in python and I&amp;rsquo;m always looking for the next thing to learn.
-I&amp;rsquo;m interested in child development, ADHD, ASD, speech and language disorders, computer sciences, networking, human evolution, natural history and a tiny little bit about penetration testing.
-I often develop discord bots and APIs for my friends and communities I&amp;rsquo;m engaged with and I use python and Jupiter lab in my research projects and my students&#39;.</description>
-      <content>&lt;h2 id=&#34;hello-im-chris&#34;&gt;Hello I&amp;rsquo;m Chris&lt;/h2&gt;
-&lt;p&gt;I&amp;rsquo;m a developmental pediatrician from Mexico City. I love to code in python and I&amp;rsquo;m always looking for the next thing to learn.&lt;/p&gt;
-&lt;p&gt;I&amp;rsquo;m interested in child development, ADHD, ASD, speech and language disorders, computer sciences, networking, human evolution, natural history and a tiny little bit about penetration testing.&lt;/p&gt;
-&lt;p&gt;I often develop discord bots and APIs for my friends and communities I&amp;rsquo;m engaged with and I use python and Jupiter lab in my research projects and my students&#39;.&lt;/p&gt;
-&lt;p&gt;You can buy me a coffee &lt;a href=&#34;https://ko-fi.com/chrisdewa&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 </content>
     </item>
     
