@@ -6,10 +6,10 @@ Soy un pediatra del desarrollo de la Ciudad de México, ejerzo mi especialidad y
 - Mi familia
 - Pediatría del desarrollo, por ejemplo:
   1. Trastorno por Déficit de Atención e Hiperactividad/Impulsividad
-  2. Trastornos del Espectro Autista
+  2. Autismo
   3. Trastornos de la Comunicación
   4. Trastornos del Aprendizaje
-  5. Genialidad
+  5. Altas Capacidades (AACC)
 - Análisis estadístico
 - Programación en python
 
@@ -17,6 +17,8 @@ Soy un pediatra del desarrollo de la Ciudad de México, ejerzo mi especialidad y
   - [Curso Taller de Análisis Estadístico con Python](https://chrisdewa.github.io/curso_python)
   > Delaflor Wagner, C. A. (2025). Curso-Taller de Análisis Estadístico con Python. Zenodo. https://doi.org/10.5281/zenodo.16538537
 
+## Herramientas en hosting
+  - [ASReview](https://review.chrisdewa.com): Plataforma colaborativa para el proceso de tamizaje en revisiones sistemáticas (ver asreivew en [github](https://github.com/asreview)).
 
 ## Papers
 
